@@ -1,18 +1,21 @@
+/*
 package com.bug.tracker.dao;
 
 import com.bug.tracker.configuration.HibernateTestConfiguration;
 import com.bug.tracker.model.User;
 import com.bug.tracker.model.UserProfile;
+import com.bug.tracker.service.UserProfileService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HibernateTestConfiguration.class)
@@ -20,32 +23,44 @@ import java.util.Set;
 public class UserDaoImplTest{
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
+    @Mock
+    private UserProfileService userProfileService;
+    @Spy
+    private User user;
+
+
+    @Before
+    public void setUp(){
+        MockitoAnnotations.initMocks(this);
+        user = getUser();
+    }
 
   	@Test
     public void saveUser(){
-        userDao.save(getSampleUser());
+        userDao.save(user);
         Assert.assertEquals(userDao.findAll().size(), 1);
     }
 
-    public User getSampleUser(){
+    private User getUser() {
         User user = new User();
-        user.setFirstName("Mike");
-        user.setLastName("Magic");
-        user.setLogin("Mike");
-        user.setPassword("fff111");
-        user.setEmail("asd@mail.ru");
-        user.setUserProfiles(getSampleRole());
+        //user.setId(1);
+        user.setLogin("login");
+        user.setPassword("213");
+        user.setFirstName("ddd");
+        user.setLastName("ccc");
+        user.setEmail("as@as");
+        UserProfile userProfile = userProfileService.findById(2);
+        user.setUserProfile(userProfile);
+        //user.setUserProfile(getUserProfile());
         return user;
     }
 
-    public Set<UserProfile> getSampleRole(){
-        Set<UserProfile> role = new HashSet<>();
+    private UserProfile getUserProfile() {
         UserProfile userProfile = new UserProfile();
         userProfile.setId(2);
         userProfile.setRole("Developer");
-        role.add(userProfile);
-        return role;
+        return userProfile;
     }
-
 }
+*/

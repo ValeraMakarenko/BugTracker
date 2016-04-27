@@ -4,22 +4,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "STATUS")
-public class Status {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class Status extends MainEntity {
 
     @Column(name = "TYPE", length = 15, unique = true, nullable = false)
     private String type;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getType() {
         return type;
@@ -33,23 +21,25 @@ public class Status {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         Status status = (Status) o;
 
-        if (id != status.id) return false;
         return type.equals(status.type);
 
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = super.hashCode();
         result = 31 * result + type.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return "Status [id=" + id + ",  type=" + type	+ "]";
+        return "Status{" +
+                "type='" + type + '\'' +
+                '}';
     }
 }

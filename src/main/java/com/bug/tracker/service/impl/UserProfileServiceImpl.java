@@ -14,7 +14,7 @@ import java.util.List;
 public class UserProfileServiceImpl implements UserProfileService {
 
     @Autowired
-    UserProfileDao dao;
+    private UserProfileDao dao;
 
     @Override
     public List<UserProfile> findAll() {

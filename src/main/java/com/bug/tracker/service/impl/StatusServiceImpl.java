@@ -14,7 +14,7 @@ import java.util.List;
 public class StatusServiceImpl implements StatusService {
 
     @Autowired
-    StatusDao dao;
+    private StatusDao dao;
 
     @Override
     public List<Status> findAll() {

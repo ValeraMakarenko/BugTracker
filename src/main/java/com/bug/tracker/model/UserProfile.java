@@ -4,22 +4,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "USER_PROFILE")
-public class UserProfile {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class UserProfile extends MainEntity {
 
     @Column(name = "ROLE", length = 15, unique = true, nullable = false)
     private String role;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getRole() {
         return role;
@@ -33,23 +21,25 @@ public class UserProfile {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         UserProfile that = (UserProfile) o;
 
-        if (id != that.id) return false;
-        return role != null ? role.equals(that.role) : that.role == null;
+        return role.equals(that.role);
 
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (role != null ? role.hashCode() : 0);
+        int result = super.hashCode();
+        result = 31 * result + role.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return "UserProfile [id=" + id + ",  role=" + role	+ "]";
+        return "UserProfile{" +
+                "role='" + role + '\'' +
+                '}';
     }
 }

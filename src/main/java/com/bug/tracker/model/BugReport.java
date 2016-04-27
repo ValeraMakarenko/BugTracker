@@ -4,15 +4,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+
 @Entity
 @Table(name = "BUG_REPORT")
-public class BugReport {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class BugReport extends MainEntity {
 
     @NotEmpty
     @Column(name = "TITLE", nullable = false)
@@ -34,41 +29,24 @@ public class BugReport {
     @Column(name = "EXPECTED_RESULT", nullable = false)
     private String expectedResult;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_REPORTER_ID", referencedColumnName="ID", nullable = false)
-    private User reporterId;
+    private User reporter;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_ASSIGNED_ID", referencedColumnName="ID", nullable = false)
-    private User assignedId;
+    private User assigned;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "BUG_REPORT_STATUS",
-            joinColumns = {@JoinColumn(name = "FK_BUG_REPORT_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "FK_STATUS_ID")})
-    private Set<Status> statuses = new HashSet<Status>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FK_STATUS_ID", referencedColumnName="ID", nullable = false)
+    private Status status;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "BUG_REPORT_PRIORITY",
-            joinColumns = {@JoinColumn(name = "FK_BUG_REPORT_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "FK_PRIORITY_ID")})
-    private Set<Priority> priorities = new HashSet<Priority>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FK_PRIORITY_ID", referencedColumnName="ID", nullable = false)
+    private Priority priority;
 
-    //@NotEmpty
-    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "START_BUG_REPORT", nullable = false)
-    //@Type(type = "org.hibernate.type.LocalDateTimeType")
-    //@Convert(disableConversion = true)
-    //@Convert(converter = LocalDateTimeConverter.class)
-    private LocalDateTime date;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private LocalDateTime startBugReport;
 
     public String getTitle() {
         return title;
@@ -110,80 +88,96 @@ public class BugReport {
         this.expectedResult = expectedResult;
     }
 
-    public User getReporterId() {
-        return reporterId;
+    public User getReporter() {
+        return reporter;
     }
 
-    public void setReporterId(User reporterId) {
-        this.reporterId = reporterId;
+    public void setReporter(User reporter) {
+        this.reporter = reporter;
     }
 
-    public User getAssignedId() {
-        return assignedId;
+    public User getAssigned() {
+        return assigned;
     }
 
-    public void setAssignedId(User assignedId) {
-        this.assignedId = assignedId;
+    public void setAssigned(User assigned) {
+        this.assigned = assigned;
     }
 
-    public Set<Status> getStatuses() {
-        return statuses;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setStatuses(Set<Status> statuses) {
-        this.statuses = statuses;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
-    public Set<Priority> getPriorities() {
-        return priorities;
+    public Priority getPriority() {
+        return priority;
     }
 
-    public void setPriorities(Set<Priority> priorities) {
-        this.priorities = priorities;
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getStartBugReport() {
+        return startBugReport;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setStartBugReport(LocalDateTime startBugReport) {
+        this.startBugReport = startBugReport;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         BugReport bugReport = (BugReport) o;
 
-        if (id != bugReport.id) return false;
-        return title.equals(bugReport.title);
+        if (!title.equals(bugReport.title)) return false;
+        if (!summary.equals(bugReport.summary)) return false;
+        if (!stepsToReproduce.equals(bugReport.stepsToReproduce)) return false;
+        if (!actualResult.equals(bugReport.actualResult)) return false;
+        if (!expectedResult.equals(bugReport.expectedResult)) return false;
+        if (!reporter.equals(bugReport.reporter)) return false;
+        if (!assigned.equals(bugReport.assigned)) return false;
+        if (!status.equals(bugReport.status)) return false;
+        if (!priority.equals(bugReport.priority)) return false;
+        return startBugReport.equals(bugReport.startBugReport);
 
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = super.hashCode();
         result = 31 * result + title.hashCode();
+        result = 31 * result + summary.hashCode();
+        result = 31 * result + stepsToReproduce.hashCode();
+        result = 31 * result + actualResult.hashCode();
+        result = 31 * result + expectedResult.hashCode();
+        result = 31 * result + reporter.hashCode();
+        result = 31 * result + assigned.hashCode();
+        result = 31 * result + status.hashCode();
+        result = 31 * result + priority.hashCode();
+        result = 31 * result + startBugReport.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
         return "BugReport{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", summary='" + summary + '\'' +
                 ", stepsToReproduce='" + stepsToReproduce + '\'' +
                 ", actualResult='" + actualResult + '\'' +
                 ", expectedResult='" + expectedResult + '\'' +
-                ", reporterId=" + reporterId +
-                ", assignedId=" + assignedId +
-                ", statuses=" + statuses +
-                ", priorities=" + priorities +
-                ", date=" + date +
+                ", reporter=" + reporter +
+                ", assigned=" + assigned +
+                ", status=" + status +
+                ", priority=" + priority +
+                ", startBugReport=" + startBugReport +
                 '}';
     }
-
 }

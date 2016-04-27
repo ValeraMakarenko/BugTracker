@@ -1,10 +1,7 @@
 package com.bug.tracker.configuration;
 
-import com.bug.tracker.util.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -15,16 +12,16 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.bug.tracker")
-public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
+class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 
-    @Autowired
-    RoleToUserProfileConverter roleToUserProfileConverter;
-    @Autowired
+    /*@Autowired
+    RoleToUserProfileConverter roleToUserProfileConverter;*/
+    /*@Autowired
     StatusConvert statusConvert;
     @Autowired
     PriorityConvert priorityConvert;
     @Autowired
-    AssignedConvert assignedConvert;
+    AssignedConvert assignedConvert;*/
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -40,11 +37,11 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
 
-    @Override
+   /* @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(roleToUserProfileConverter);
-        registry.addConverter(statusConvert);
-        registry.addConverter(priorityConvert);
-    }
+       // registry.addConverter(roleToUserProfileConverter);
+        //registry.addConverter(statusConvert);
+        //registry.addConverter(priorityConvert);
+    }*/
 
 }

@@ -1,11 +1,10 @@
 package com.bug.tracker.controller;
 
-import com.bug.tracker.model.User;
+import com.bug.tracker.dto.UserDto;
 import com.bug.tracker.model.UserProfile;
 import com.bug.tracker.service.UserProfileService;
 import com.bug.tracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,10 +25,10 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    UserProfileService userProfileService;
+    private UserProfileService userProfileService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String homePage(ModelMap model) {
@@ -72,41 +71,22 @@ public class MainController {
 
     @RequestMapping(value = "/newUser", method = RequestMethod.GET)
     public String newRegistration(ModelMap model) {
-        User user = new User();
-        model.addAttribute("user", user);
+        UserDto userDto = new UserDto();
+        model.addAttribute("userDto", userDto);
         return "newuser";
     }
 
-
     @RequestMapping(value = "/newUser", method = RequestMethod.POST)
-    public String saveRegistration(@Valid User user,
-                                   BindingResult result, ModelMap model) {
+    public String saveRegistration(@Valid UserDto userDto, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             System.out.println("There are errors");
             return "newuser";
         }
-        boolean isUnique = userService.save(user);
+        boolean isUnique = userService.save(userDto);
         if (!isUnique) {
             model.addAttribute("error", "Enter another login!");
             return "newuser";
         }
-
-        System.out.println("First Name : " + user.getFirstName());
-        System.out.println("Last Name : " + user.getLastName());
-        System.out.println("Login : " + user.getLogin());
-        System.out.println("Password : " + user.getPassword());
-        System.out.println("Email : " + user.getEmail());
-        System.out.println("Checking UsrProfiles....");
-        if (user.getUserProfiles() != null) {
-            for (UserProfile profile : user.getUserProfiles()) {
-                System.out.println("Profile : " + profile.getRole());
-            }
-        }
-
-        model.addAttribute("success", "User " + user.getFirstName() + " has been registered successfully");
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword());
-        Authentication authentication = token;
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         model.addAttribute("user", getPrincipal());
         return "redirect:/home";
     }
@@ -117,9 +97,8 @@ public class MainController {
     }
 
     private String getPrincipal() {
-        String userName = null;
+        String userName;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         if (principal instanceof UserDetails) {
             userName = ((UserDetails) principal).getUsername();
         } else {

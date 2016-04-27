@@ -28,9 +28,6 @@ public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile> implem
 
         Query query = session.createQuery("FROM UserProfile");
 
-        List list = query.list();
-        System.out.println(list);
-
         return  query.list();
 
         /*Criteria crit = createEntityCriteria();

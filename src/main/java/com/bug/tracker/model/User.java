@@ -3,16 +3,10 @@ package com.bug.tracker.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "USER")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class User extends MainEntity {
 
     @NotEmpty
     @Column(name = "LOGIN", unique = true, nullable = false)
@@ -34,22 +28,9 @@ public class User {
     @Column(name = "EMAIL", nullable = false)
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "USER_USER_PROFILE",
-            joinColumns = {@JoinColumn(name = "FK_USER_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "FK_USER_PROFILE_ID")})
-    private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
-/*
-    @OneToMany(mappedBy = "User")
-    private Set<BugReport> bugReports;*/
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FK_ROLE_ID", referencedColumnName="ID", nullable = false)
+    private UserProfile userProfile;
 
     public String getLogin() {
         return login;
@@ -91,57 +72,52 @@ public class User {
         this.email = email;
     }
 
-    public Set<UserProfile> getUserProfiles() {
-        return userProfiles;
+    public UserProfile getUserProfile() {
+        return userProfile;
     }
 
-    public void setUserProfiles(Set<UserProfile> userProfiles) {
-        this.userProfiles = userProfiles;
-    }
-/*
-
-    public Set<BugReport> getBugReports() {
-        return bugReports;
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 
-    public void setBugReports(Set<BugReport> bugReports) {
-        this.bugReports = bugReports;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        User user = (User) o;
+
+        if (!login.equals(user.login)) return false;
+        if (!password.equals(user.password)) return false;
+        if (!firstName.equals(user.firstName)) return false;
+        if (!lastName.equals(user.lastName)) return false;
+        if (!email.equals(user.email)) return false;
+        return userProfile.equals(user.userProfile);
+
     }
-*/
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        result = prime * result + ((login == null) ? 0 : login.hashCode());
+        int result = super.hashCode();
+        result = 31 * result + login.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + userProfile.hashCode();
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof User))
-            return false;
-        User other = (User) obj;
-        if (id != other.id)
-            return false;
-        if (login == null) {
-            if (other.login != null)
-                return false;
-        } else if (!login.equals(other.login))
-            return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "User [id=" + id + ", login=" + login + ", password=" + password
-                + ", firstName=" + firstName + ", lastName=" + lastName
-                + ", email=" + email + ", userProfiles=" + userProfiles + "]";
+        return "User{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", userProfile=" + userProfile +
+                '}';
     }
-
 }

@@ -86,11 +86,11 @@
 
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="statuses">Statuses</label>
+                <label class="col-md-3 control-lable" for="statusId">Statuses</label>
                 <div class="col-md-7">
-                    <form:select path="statuses" items="${statuses}" multiple="false" itemValue="id" itemLabel="type" class="form-control input-sm"/>
+                    <form:select path="statusId" items="${statuses}" multiple="false" itemValue="id" itemLabel="type" class="form-control input-sm"/>
                     <div class="has-error">
-                        <form:errors path="statuses" class="help-inline"/>
+                        <form:errors path="statusId" class="help-inline"/>
                     </div>
                 </div>
             </div>
@@ -98,11 +98,11 @@
 
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="priorities">Priorities</label>
+                <label class="col-md-3 control-lable" for="priorityId">Priorities</label>
                 <div class="col-md-7">
-                    <form:select path="priorities" items="${priorities}" multiple="false" itemValue="id" itemLabel="type" class="form-control input-sm"/>
+                    <form:select path="priorityId" items="${priorities}" multiple="false" itemValue="id" itemLabel="type" class="form-control input-sm"/>
                     <div class="has-error">
-                        <form:errors path="priorities" class="help-inline"/>
+                        <form:errors path="priorityId" class="help-inline"/>
                     </div>
                 </div>
             </div>

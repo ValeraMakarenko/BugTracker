@@ -1,8 +1,10 @@
 package com.bug.tracker.controller;
 
 import com.bug.tracker.dao.BugReportDao;
-import com.bug.tracker.model.*;
+import com.bug.tracker.model.BugReportForViewKotlin;
+import com.bug.tracker.model.User;
 import com.bug.tracker.service.BugReportService;
+import com.bug.tracker.service.UserService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,98 +17,93 @@ import org.springframework.ui.ModelMap;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import static org.mockito.Mockito.*;
 
 public class BugReportControllerTest {
     @Mock
-    BugReportDao bugReportDao;
+    private BugReportDao bugReportDao;
 
     @Mock
-    BugReportService bugReportService;
+    private BugReportService bugReportService;
+
+    @Mock
+    private UserService userService;
 
     @InjectMocks
-    BugReportController bugReportController;
+    private BugReportController bugReportController;
 
     @Spy
-    List<BugReport> bugReports = new ArrayList<>();
+    private List<BugReportForViewKotlin> bugReportForViewKotlinList = new ArrayList<>();
 
     @Spy
-    ModelMap model;
+    private ModelMap model;
+
+    @Spy
+    private User user;
 
 
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        bugReports = getBugReportList();
+        bugReportForViewKotlinList = getBugReportList();
     }
+
 
     @Test
-    public void newBugReport(){
-        Assert.assertEquals(bugReportController.newBugReport(model), "newbugreport");
-        Assert.assertNotNull(model.get("bugReport"));
-        Assert.assertEquals(((BugReport)model.get("bugReport")).getId(), 0);
+    public void bugReportList(){
+        when(bugReportService.findAll()).thenReturn(bugReportForViewKotlinList);
+        Assert.assertEquals(bugReportController.bugReportList(model), "bugreportlist");
+        Assert.assertEquals(model.get("bugReports"), bugReportForViewKotlinList);
+        verify(bugReportService, atLeastOnce()).findAll();
     }
 
-    public List<BugReport> getBugReportList(){
-        BugReport bugReport = new BugReport();
 
-        bugReport.setId(1);
-        bugReport.setTitle("Title");
-        bugReport.setSummary("Summary");
-        bugReport.setStepsToReproduce("Steps");
-        bugReport.setActualResult("Actual");
-        bugReport.setExpectedResult("Expected");
-        bugReport.setReporterId(getReporter());
-        bugReport.setAssignedId(getReporter());
-        bugReport.setStatuses(getStatus());
-        bugReport.setPriorities(getPriority());
-        bugReport.setDate(LocalDateTime.of(2016, Month.APRIL, 10, 20, 30));
 
-        List<BugReport> bugReports =new ArrayList<>();
-        bugReports.add(bugReport);
-        return  bugReports;
+    private List<BugReportForViewKotlin> getBugReportList(){
+        BugReportForViewKotlin bugReportForViewKotlin = new BugReportForViewKotlin();
+
+        bugReportForViewKotlin.setId(1);
+        bugReportForViewKotlin.setTitle("title");
+        bugReportForViewKotlin.setSummary("summary");
+        bugReportForViewKotlin.setStepsToReproduce("steps");
+        bugReportForViewKotlin.setActualResult("actual");
+        bugReportForViewKotlin.setExpectedResult("expected");
+        bugReportForViewKotlin.setReporter("sss");
+        bugReportForViewKotlin.setAssigned("ddd");
+        bugReportForViewKotlin.setStatus("open");
+        bugReportForViewKotlin.setPriority("block");
+        bugReportForViewKotlin.setDate(LocalDateTime.of(2016, Month.APRIL, 10, 20, 30));
+
+        List<BugReportForViewKotlin> bugReportForViewKotlinList =new ArrayList<>();
+        bugReportForViewKotlinList.add(bugReportForViewKotlin);
+        return  bugReportForViewKotlinList;
     }
 
-    public User getReporter(){
-        User reporter = new User();
-        reporter.setId(1);
-        reporter.setLogin("Login");
-        reporter.setPassword("pass");
-        reporter.setFirstName("Name");
-        reporter.setLastName("LastName");
-        reporter.setEmail("email@dot.com");
-        reporter.setUserProfiles(getUserProfile());
-        return reporter;
+    private String getPrincipal() {
+        return "login";
     }
 
-    public Set<UserProfile> getUserProfile(){
+   /* private User getUser() {
+        User user = new User();
+        user.setId(1);
+        user.setLogin("login");
+        user.setPassword("213");
+        user.setFirstName("ddd");
+        user.setLastName("ccc");
+        user.setEmail("as@as");
+        user.setUserProfile(getUserProfile());
+        return user;
+    }
+
+    private UserProfile getUserProfile() {
         UserProfile userProfile = new UserProfile();
         userProfile.setId(1);
-        userProfile.setRole("Tester");
-        Set<UserProfile> userProfileSet = new HashSet<>();
-        userProfileSet.add(userProfile);
-        return userProfileSet;
-    }
+        userProfile.setRole("role");
+        return userProfile;
+    }*/
 
-    public Set<Status> getStatus(){
-        Status status = new Status();
-        status.setId(1);
-        status.setType("Open");
-        Set<Status> statuses = new HashSet<>();
-        statuses.add(status);
-        return statuses;
-    }
-
-    public Set<Priority> getPriority(){
-        Priority priority = new Priority();
-        priority.setId(1);
-        priority.setType("Minor");
-        Set<Priority> priorities = new HashSet<>();
-        priorities.add(priority);
-        return priorities;
-    }
 
 }
 

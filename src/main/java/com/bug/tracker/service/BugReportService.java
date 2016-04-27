@@ -1,25 +1,21 @@
 package com.bug.tracker.service;
 
-import com.bug.tracker.model.BugReport;
-import com.bug.tracker.model.Priority;
-import com.bug.tracker.model.Status;
-import com.bug.tracker.model.User;
+import com.bug.tracker.dto.BugReportDto;
+import com.bug.tracker.model.BugReportForViewKotlin;
 import org.springframework.security.access.annotation.Secured;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 public interface BugReportService {
 
-    void updateBugReport(String title, String summary, String stepsToReproduce, String actualResult, String expectedResult, User assignedUser, Set<Status> statuses, Set<Priority> priorities, User reporterUser, int id, LocalDateTime date);
+    void updateBugReport(BugReportDto bugReportDto);
 
-    List<BugReport> findAll();
+    List<BugReportForViewKotlin> findAll();
 
-    @Secured("Project_Manager")
+    @Secured("ROLE_Project_Manager")
     void deleteBugReportById(int id);
 
-    BugReport findById(int id);
+    BugReportDto findById(int id);
 
-    void save(String title, String summary, String stepsToReproduce, String actualResult, String expectedResult, User assignedUser, Set<Status> statuses, Set<Priority> priorities, User reporterUser);
+    void save(BugReportDto bugReportDto);
 }

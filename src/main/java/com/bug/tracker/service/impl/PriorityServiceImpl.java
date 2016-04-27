@@ -14,7 +14,7 @@ import java.util.List;
 public class PriorityServiceImpl implements PriorityService {
 
     @Autowired
-    PriorityDao dao;
+    private PriorityDao dao;
 
     @Override
     public List<Priority> findAll() {
