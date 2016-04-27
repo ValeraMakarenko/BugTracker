@@ -3,7 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/header"></c:import>
-
+<head>
+    <style>
+        .descr { visibility: hidden; }
+    </style>
+</head>
 <body>
 
 <div class="form-container">
@@ -11,7 +15,11 @@
     <h1>New Bug Report Form</h1>
 
     <form:form method="POST" modelAttribute="bugReport" class="form-horizontal">
-        <%--<form:input type="text" path="reporterId" id="reporterId" class="form-control input-sm"/>--%>
+
+        <div class="descr">
+            <form:input type="text" path="reporterId" id="reporterId" class="form-control input-sm"/>
+        </div>
+
         <div class="row">
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="title">Title</label>

@@ -2,7 +2,10 @@ package com.bug.tracker.controller;
 
 import com.bug.tracker.dto.BugReportDto;
 import com.bug.tracker.dto.UserDto;
-import com.bug.tracker.model.*;
+import com.bug.tracker.model.BugReportForViewKotlin;
+import com.bug.tracker.model.Priority;
+import com.bug.tracker.model.Status;
+import com.bug.tracker.model.User;
 import com.bug.tracker.service.BugReportService;
 import com.bug.tracker.service.PriorityService;
 import com.bug.tracker.service.StatusService;
@@ -70,6 +73,10 @@ class BugReportController {
     }
     @RequestMapping(value = "/newBugReport", method = RequestMethod.POST)
     public String saveBugReport(@Valid BugReportDto bugReportDto, ModelMap model) {
+        /*if (!BugReportUtils.validateBugReport(bugReportDto)) {
+            System.out.println("There are errors");
+            return "newBugReport";
+        }*/
         bugReportService.save(bugReportDto);
         model.addAttribute("user", getPrincipal());
         return "redirect:/home";

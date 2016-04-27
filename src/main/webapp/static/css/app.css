@@ -70,6 +70,10 @@ body, #mainWrapper, .form-control{
 	color:red;
 }
 
+.ttable{
+    margin-top:70px;
+}
+
 
 .success{
   position:fixed;

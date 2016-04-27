@@ -4,6 +4,7 @@ import com.bug.tracker.dto.UserDto;
 import com.bug.tracker.model.UserProfile;
 import com.bug.tracker.service.UserProfileService;
 import com.bug.tracker.service.UserService;
+import com.bug.tracker.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,7 +27,6 @@ public class MainController {
 
     @Autowired
     private UserProfileService userProfileService;
-
     @Autowired
     private UserService userService;
 
@@ -79,6 +79,11 @@ public class MainController {
     @RequestMapping(value = "/newUser", method = RequestMethod.POST)
     public String saveRegistration(@Valid UserDto userDto, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
+            System.out.println("There are errors");
+            model.addAttribute("errorEmpty", "There are errors");
+            return "newuser";
+        }
+        if (!UserUtils.validateUser(userDto)) {
             System.out.println("There are errors");
             return "newuser";
         }

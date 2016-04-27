@@ -28,6 +28,11 @@
 			<p>Enter another login!</p>
 		</div>
 	</c:if>
+		<c:if test="${errorEmpty != null}">
+			<div class="alert alert-danger">
+				<p>Enter correct!</p>
+			</div>
+		</c:if>
  	
 	<form:form method="POST" modelAttribute="userDto" class="form-horizontal">
 

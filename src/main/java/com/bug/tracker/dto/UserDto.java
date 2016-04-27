@@ -1,15 +1,45 @@
 package com.bug.tracker.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class UserDto implements Serializable {
 
+    @NotNull(message="id is empty")
     private int id;
+
+    @NotNull(message="Login is empty")
+    //@Pattern(regexp ="/^[\\s\\xa0]+|[\\s\\xa0]+$/g", message = "no-no-no Whitespace!")
+    @Size(min = 3, message="The length should be > 3")
     private String login;
+
+    @NotNull(message="password is empty")
+    //@Pattern(regexp ="/^[\\s\\xa0]+|[\\s\\xa0]+$/g", message = "no-no-no Whitespace!")
+    @Size(min = 3, message="The length should be > 3")
     private String password;
+
+    @NotNull(message="firstName is empty")
+    //@Pattern(regexp ="/^[\\s\\xa0]+|[\\s\\xa0]+$/g", message = "no-no-no Whitespace!")
+    @Size(min = 3, message="The length should be > 3")
     private String firstName;
+
+    @NotNull(message="lastName is empty")
+    //@Pattern(regexp ="/^[\\s\\xa0]+|[\\s\\xa0]+$/g", message = "no-no-no Whitespace!")
+    @Size(min = 3, message="The length  should be > 3")
     private String lastName;
+
+    @NotNull(message="email is empty")
+    //@Email(message = "A given email can not exist")
+    @Pattern(regexp = "^(?:[a-zA-Z0-9_'^&/+-])+(?:\\.(?:[a-zA-Z0-9_'^&/+-])+)" +
+            "*@(?:(?:\\[?(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\.)" +
+            "{3}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\]?)|(?:[a-zA-Z0-9-]+\\.)" +
+            "+(?:[a-zA-Z]){2,}\\.?)$",
+            message = "A given email can not exist")
     private String email;
+
+    @NotNull(message="idRole is empty")
     private int idRole;
 
     public UserDto() {

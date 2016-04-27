@@ -1,12 +1,19 @@
 package com.bug.tracker.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class BugReportDto {
 
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+
+    @NotNull(message="Имя должно быть задано")
     private String title;
+    @NotNull(message="Фамилия должна быть задана")
+    @Size(min = 3, message="Длина фамилии должна быть больше трех")
     private String summary;
     private String stepsToReproduce;
     private String actualResult;
