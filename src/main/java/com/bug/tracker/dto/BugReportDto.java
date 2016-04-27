@@ -2,26 +2,46 @@ package com.bug.tracker.dto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class BugReportDto {
+public class BugReportDto implements Serializable {
 
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message="id is empty")
     private int id;
 
-
-    @NotNull(message="Имя должно быть задано")
+    @NotNull(message="title is empty")
+    @Size(min = 3, message="The length should be > 3")
     private String title;
-    @NotNull(message="Фамилия должна быть задана")
-    @Size(min = 3, message="Длина фамилии должна быть больше трех")
+
+    @NotNull(message="summary is empty")
+    @Size(min = 3, message="The length should be > 3")
     private String summary;
+
+    @NotNull(message="stepsToReproduce is empty")
+    @Size(min = 3, message="The length should be > 3")
     private String stepsToReproduce;
+
+    @NotNull(message="actualResult is empty")
+    @Size(min = 3, message="The length should be > 3")
     private String actualResult;
+
+    @NotNull(message="expectedResult is empty")
+    @Size(min = 3, message="The length should be > 3")
     private String expectedResult;
+
+    @NotNull(message="reporterId is empty")
     private int reporterId;
+
+    @NotNull(message="assignedId is empty")
     private int assignedId;
+
+    @NotNull(message="statusId is empty")
     private int statusId;
+
+    @NotNull(message="priorityId is empty")
     private int priorityId;
+
     private LocalDateTime date;
 
     public int getId() {

@@ -1,17 +1,11 @@
-/*
 package com.bug.tracker.dao;
 
 import com.bug.tracker.configuration.HibernateTestConfiguration;
 import com.bug.tracker.model.User;
 import com.bug.tracker.model.UserProfile;
-import com.bug.tracker.service.UserProfileService;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -23,44 +17,73 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserDaoImplTest{
 
     @Autowired
-    private UserDao userDao;
-    @Mock
-    private UserProfileService userProfileService;
-    @Spy
-    private User user;
+    UserDao userDao;
 
+    @Autowired
+    UserProfileDao userProfileDao;
+
+    @Test
+    public void saveUser(){
+        UserProfile userProfile = new UserProfile();
+        //userProfile.setId(2);
+        userProfile.setRole("Developer");
+        userProfileDao.save(userProfile);
+
+        User user = new User();
+        user.setFirstName("Mike");
+        user.setLastName("Magic");
+        user.setLogin("Mike");
+        user.setPassword("fff111");
+        user.setEmail("asd@mail.ru");
+        user.setUserProfile(userProfile);
+        userDao.save(user);
+        Assert.assertEquals(userDao.findAll().size(), 1);
+    }
+
+    public User getSampleUser(){
+        User user = new User();
+        user.setFirstName("Mike");
+        user.setLastName("Magic");
+        user.setLogin("Mike");
+        user.setPassword("fff111");
+        user.setEmail("asd@mail.ru");
+        user.setUserProfile(getUserProfile());
+        return user;
+    }
+
+    /*@Autowired
+    private UserDao userDao;
+    @Autowired
+    UserProfileDao userProfileDao;
 
     @Before
-    public void setUp(){
-        MockitoAnnotations.initMocks(this);
-        user = getUser();
+    public void saveUserProfile() {
+        userProfileDao.save(getUserProfile());
     }
+
 
   	@Test
     public void saveUser(){
-        userDao.save(user);
+        userDao.save(getUser());
         Assert.assertEquals(userDao.findAll().size(), 1);
     }
 
     private User getUser() {
         User user = new User();
-        //user.setId(1);
+        user.setId(1);
         user.setLogin("login");
         user.setPassword("213");
         user.setFirstName("ddd");
         user.setLastName("ccc");
         user.setEmail("as@as");
-        UserProfile userProfile = userProfileService.findById(2);
-        user.setUserProfile(userProfile);
-        //user.setUserProfile(getUserProfile());
+        user.setUserProfile(getUserProfile());
         return user;
     }
-
-    private UserProfile getUserProfile() {
+*/
+    public UserProfile getUserProfile() {
         UserProfile userProfile = new UserProfile();
-        userProfile.setId(2);
+        //userProfile.setId(2);
         userProfile.setRole("Developer");
         return userProfile;
     }
 }
-*/

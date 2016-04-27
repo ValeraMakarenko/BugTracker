@@ -1,8 +1,5 @@
 package com.bug.tracker.configuration;
 
-import com.bug.tracker.model.BugReport;
-import com.bug.tracker.model.MainEntity;
-import com.bug.tracker.model.User;
 import com.bug.tracker.model.UserProfile;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,20 +21,18 @@ public class HibernateTestConfiguration {
 
     /*@Autowired
     private Environment environment;*/
-/*
-    @Autowired
-    private HibernateTransactionManager tm;*/
+
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[] { "com.bug.tracker.model" , "com.bug.tracker.dto" });
+        sessionFactory.setPackagesToScan(new String[] { "com.bug.tracker.model"});
         sessionFactory.setHibernateProperties(hibernateProperties());
         sessionFactory.setAnnotatedClasses(UserProfile.class);
-        sessionFactory.setAnnotatedClasses(MainEntity.class);
+        /*sessionFactory.setAnnotatedClasses(MainEntity.class);
         sessionFactory.setAnnotatedClasses(User.class);
-        sessionFactory.setAnnotatedClasses(BugReport.class);
+        sessionFactory.setAnnotatedClasses(BugReport.class);*/
         return sessionFactory;
     }
 

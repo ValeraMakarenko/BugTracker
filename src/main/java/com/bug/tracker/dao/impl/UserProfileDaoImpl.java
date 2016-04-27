@@ -41,6 +41,11 @@ public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile> implem
     }
 
     @Override
+    public void save(UserProfile userProfile) {
+        persist(userProfile);
+    }
+
+    @Override
     public UserProfile findByRole(String role) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("role", role));

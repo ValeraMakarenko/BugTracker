@@ -19,14 +19,17 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Override
     public void save(User user) {
         persist(user);
     }
 
+    @Override
     public User findById(int id) {
         return getByKey(id);
     }
 
+    @Override
     public User findByLogin(String login) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("login", login));

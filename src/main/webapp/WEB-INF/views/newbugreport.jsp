@@ -14,7 +14,13 @@
 
     <h1>New Bug Report Form</h1>
 
-    <form:form method="POST" modelAttribute="bugReport" class="form-horizontal">
+    <c:if test="${errorEmpty != null}">
+        <div class="alert alert-danger">
+            <p>Enter correct!</p>
+        </div>
+    </c:if>
+
+    <form:form method="POST" modelAttribute="bugReportDto" class="form-horizontal">
 
         <div class="descr">
             <form:input type="text" path="reporterId" id="reporterId" class="form-control input-sm"/>

@@ -23,19 +23,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Qualifier("customUserDetailsService")
     UserDetailsService userDetailsService;
 
-
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
         auth.authenticationProvider(authenticationProvider());
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -50,8 +47,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/home", "/newuser", "/header").permitAll()
                 .antMatchers("/newbugreport", "bugreportlist","/account").access("hasAnyRole('Developer','Project_Manager','Tester')")
-                //access("hasAnyRole('Developer','Project_Manager')")
-                //access("hasRole('Developer') and hasRole('Project_Manager')")
                 .and().formLogin().loginPage("/login")
                 .usernameParameter("login").passwordParameter("password")
                 .and().csrf()

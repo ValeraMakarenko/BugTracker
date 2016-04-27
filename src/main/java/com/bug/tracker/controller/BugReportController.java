@@ -10,11 +10,13 @@ import com.bug.tracker.service.BugReportService;
 import com.bug.tracker.service.PriorityService;
 import com.bug.tracker.service.StatusService;
 import com.bug.tracker.service.UserService;
+import com.bug.tracker.util.BugReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,15 +70,21 @@ class BugReportController {
         User reporterUser = userService.findByLogin(getPrincipal());
         BugReportDto bugReportDto = new BugReportDto();
         bugReportDto.setReporterId(reporterUser.getId());
-        model.addAttribute("bugReport", bugReportDto);
+        model.addAttribute("bugReportDto", bugReportDto);
         return "newbugreport";
     }
     @RequestMapping(value = "/newBugReport", method = RequestMethod.POST)
-    public String saveBugReport(@Valid BugReportDto bugReportDto, ModelMap model) {
-        /*if (!BugReportUtils.validateBugReport(bugReportDto)) {
+    public String saveBugReport(@Valid BugReportDto bugReportDto, BindingResult result, ModelMap model) {
+        if (result.hasErrors()) {
             System.out.println("There are errors");
-            return "newBugReport";
-        }*/
+            model.addAttribute("errorEmpty", "There are errors");
+            return "newbugreport";
+        }
+        if (!BugReportUtils.validateBugReport(bugReportDto)) {
+            model.addAttribute("errorEmpty", "There are errors");
+            System.out.println("There are errors");
+            return "newbugreport";
+        }
         bugReportService.save(bugReportDto);
         model.addAttribute("user", getPrincipal());
         return "redirect:/home";
