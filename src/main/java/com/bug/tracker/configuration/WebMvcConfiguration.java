@@ -14,15 +14,6 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = "com.bug.tracker")
 class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 
-    /*@Autowired
-    RoleToUserProfileConverter roleToUserProfileConverter;*/
-    /*@Autowired
-    StatusConvert statusConvert;
-    @Autowired
-    PriorityConvert priorityConvert;
-    @Autowired
-    AssignedConvert assignedConvert;*/
-
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -36,12 +27,5 @@ class WebMvcConfiguration extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
-
-   /* @Override
-    public void addFormatters(FormatterRegistry registry) {
-       // registry.addConverter(roleToUserProfileConverter);
-        //registry.addConverter(statusConvert);
-        //registry.addConverter(priorityConvert);
-    }*/
 
 }
