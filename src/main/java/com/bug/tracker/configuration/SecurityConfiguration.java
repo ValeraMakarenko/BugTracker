@@ -46,7 +46,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/", "/home", "/newuser", "/header").permitAll()
-                .antMatchers("/newbugreport", "bugreportlist","/account").access("hasAnyRole('Developer','Project_Manager','Tester')")
+                .antMatchers("/newbugreport", "/bugreportlist","/account", "/editbugreport","/detailsproject","/editproject","/projectlist")
+                .access("hasAnyRole('Developer','Project_Manager','Tester')")
+                .antMatchers("/edit-project-{id}","/edit-bugreport-{id}", "/new-bug-report-{id}")
+                .access("hasAnyRole('Developer','Project_Manager','Tester')")
                 .and().formLogin().loginPage("/login")
                 .usernameParameter("login").passwordParameter("password")
                 .and().csrf()

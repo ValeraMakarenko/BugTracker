@@ -34,7 +34,6 @@ public class UserMapperImpl implements UserMapper {
     @Override
     public User userDtoToUser(UserDto userDto) {
         User user = new User();
-       // user.setId(userDto.getId());
         user.setLogin(userDto.getLogin());
         user.setPassword(userDto.getPassword());
         user.setFirstName(userDto.getFirstName());

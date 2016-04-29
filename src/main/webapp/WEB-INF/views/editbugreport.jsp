@@ -1,9 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="/header"></c:import>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
+    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
     <style>
         .descr { visibility: hidden; }
     </style>
@@ -14,12 +18,26 @@
 
     <h1>Edit Bug Report Form</h1>
 
-    <form:form method="POST" modelAttribute="bugReport" class="form-horizontal">
+    <c:if test="${errorEmpty != null}">
+        <div class="alert alert-danger">
+            <p>Enter correct!</p>
+        </div>
+    </c:if>
+
+    <form:form method="POST" modelAttribute="bugReportDto" class="form-horizontal">
 
         <div class="descr">
             <form:input type="number" path="id" id="id" class="form-control input-sm"/>
             <form:input type="datetime" path="date" id="date" class="form-control input-sm"/>
             <form:select path="reporterId" items="${reporterId}" itemValue="id"  itemLabel="firstName" class="form-control input-sm"/>
+            <form:input type="text" path="projectId" id="projectId" class="form-control input-sm"/>
+        </div>
+
+        <div class="has-error">
+            <form:errors path="id" class="help-inline"/>
+            <form:errors path="date" class="help-inline"/>
+            <form:errors path="reporterId" class="help-inline"/>
+            <form:errors path="projectId" class="help-inline"/>
         </div>
 
         <div class="row">

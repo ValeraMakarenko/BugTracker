@@ -12,4 +12,5 @@ public interface StatusDao {
 
     Status findById(int id);
 
+    void save(Status status);
 }

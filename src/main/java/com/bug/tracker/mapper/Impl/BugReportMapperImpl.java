@@ -2,9 +2,10 @@ package com.bug.tracker.mapper.Impl;
 
 import com.bug.tracker.dto.BugReportDto;
 import com.bug.tracker.mapper.BugReportMapper;
+import com.bug.tracker.mapper.ProjectMapper;
 import com.bug.tracker.model.*;
-import com.bug.tracker.service.BugReportService;
 import com.bug.tracker.service.PriorityService;
+import com.bug.tracker.service.ProjectService;
 import com.bug.tracker.service.StatusService;
 import com.bug.tracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,9 @@ public class BugReportMapperImpl implements BugReportMapper {
     @Autowired
     private StatusService statusService;
     @Autowired
-    private BugReportService bugReportService;
+    private ProjectService projectService;
+    @Autowired
+    private ProjectMapper projectMapper;
 
     @Override
     public BugReportDto bugReportToBugReportDto(BugReport bugReport) {
@@ -38,6 +41,7 @@ public class BugReportMapperImpl implements BugReportMapper {
         bugReportDto.setAssignedId(getUserId(bugReport.getAssigned()));
         bugReportDto.setStatusId(getStatusId(bugReport.getStatus()));
         bugReportDto.setPriorityId(getPriorityId(bugReport.getPriority()));
+        bugReportDto.setProjectId(getProjectId(bugReport.getProject()));
         bugReportDto.setDate(bugReport.getStartBugReport());
 
         return bugReportDto;
@@ -46,7 +50,7 @@ public class BugReportMapperImpl implements BugReportMapper {
     @Override
     public BugReport bugReportDtoToBugReport(BugReportDto bugReportDto) {
         BugReport bugReport = new BugReport();
-        //bugReport.setId(bugReportDto.getId());
+        bugReport.setId(bugReportDto.getId());
         bugReport.setTitle(bugReportDto.getTitle());
         bugReport.setSummary(bugReportDto.getSummary());
         bugReport.setStepsToReproduce(bugReportDto.getStepsToReproduce());
@@ -56,14 +60,21 @@ public class BugReportMapperImpl implements BugReportMapper {
         bugReport.setAssigned(getUserById(bugReportDto.getAssignedId()));
         bugReport.setStatus(getStatusById(bugReportDto.getStatusId()));
         bugReport.setPriority(getPriorityById(bugReportDto.getPriorityId()));
+        bugReport.setProject(getProjectById(bugReportDto.getProjectId()));
         bugReport.setStartBugReport(bugReportDto.getDate());
         return bugReport;
     }
 
     @Override
     public List<BugReport> bugReportDtosToBugReports(List<BugReportDto> bugReportDtoList) {
-        //List<BugReport> bugReports = bugReportService.findAll();
-        return null;
+        if (bugReportDtoList == null) {
+            return null;
+        }
+        List<BugReport> bugReports = new ArrayList<>();
+        for (BugReportDto bugReportDto : bugReportDtoList) {
+            bugReports.add(bugReportDtoToBugReport(bugReportDto));
+        }
+        return bugReports;
     }
 
     @Override
@@ -91,6 +102,7 @@ public class BugReportMapperImpl implements BugReportMapper {
         bugReportForViewKotlin.setAssigned(bugReport.getAssigned().getLogin());
         bugReportForViewKotlin.setStatus(bugReport.getStatus().getType());
         bugReportForViewKotlin.setPriority(bugReport.getPriority().getType());
+        bugReportForViewKotlin.setProject(bugReport.getProject().getNameProject());
         bugReportForViewKotlin.setDate(bugReport.getStartBugReport());
         return bugReportForViewKotlin;
     }
@@ -116,6 +128,10 @@ public class BugReportMapperImpl implements BugReportMapper {
         return priorityService.findById(id);
     }
 
+    private Project getProjectById(int id) {
+        return projectMapper.projectDtoToProject(projectService.findById(id));
+    }
+
     private int getUserId(User user) {
         return user.getId();
     }
@@ -126,5 +142,9 @@ public class BugReportMapperImpl implements BugReportMapper {
 
     private int getPriorityId(Priority priority) {
         return priority.getId();
+    }
+
+    private int getProjectId(Project project) {
+        return project.getId();
     }
 }

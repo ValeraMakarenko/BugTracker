@@ -11,4 +11,6 @@ public interface PriorityDao {
     Priority findByType(String type);
 
     Priority findById(int id);
+
+    void save(Priority priority);
 }

@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "STATUS")
-public class Status extends MainEntity {
+public class Status extends AbstractEntity {
 
     @Column(name = "TYPE", length = 15, unique = true, nullable = false)
     private String type;
@@ -39,7 +39,8 @@ public class Status extends MainEntity {
     @Override
     public String toString() {
         return "Status{" +
-                "type='" + type + '\'' +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
                 '}';
     }
 }

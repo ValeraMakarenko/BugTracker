@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class MainEntity {
+public abstract class AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +24,8 @@ public class MainEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        MainEntity that = (MainEntity) o;
-
+        AbstractEntity that = (AbstractEntity) o;
         return id == that.id;
-
     }
 
     @Override

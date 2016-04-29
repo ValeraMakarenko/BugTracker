@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "USER")
-public class User extends MainEntity {
+public class User extends AbstractEntity {
 
     @NotEmpty
     @Column(name = "LOGIN", unique = true, nullable = false)
@@ -28,7 +28,7 @@ public class User extends MainEntity {
     @Column(name = "EMAIL", nullable = false)
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "FK_ROLE_ID", referencedColumnName="ID", nullable = false)
     private UserProfile userProfile;
 
@@ -112,7 +112,8 @@ public class User extends MainEntity {
     @Override
     public String toString() {
         return "User{" +
-                "login='" + login + '\'' +
+                "id='" + id + '\'' +
+                ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

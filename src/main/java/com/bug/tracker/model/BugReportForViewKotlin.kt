@@ -12,6 +12,7 @@ class BugReportForViewKotlin(var id: Int = 0,
                              var assigned: String = "",
                              var status: String = "",
                              var priority: String = "",
+                             var project: String = "",
                              var date: LocalDateTime = LocalDateTime.now()
 )
 

@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <c:import url="/header"></c:import>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Users List</title>
     <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
     <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
@@ -60,37 +60,6 @@ custom-width">delete</a></td>
         </div>
     </div>
 </div>
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0-rc2/js/bootstrap.min.js"></script>
-<script src="jquery.tablesorter.min.js"></script>
-<script src="jquery.tablesorter.widgets.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $(function(){
-            $("#table").tablesorter(
-                    {
-                        theme : 'blue',
-
-                        sortList : [[1,0],[2,0],[3,0]],
-
-                        // header layout template; {icon} needed for some themes
-                        headerTemplate : '{content}{icon}',
-
-                        // initialize column styling of the table
-                        widgets : ["columns"],
-                        widgetOptions : {
-                            // change the default column class names
-                            // primary is the first column sorted, secondary is the second, etc
-                            columns : [ "primary", "secondary", "tertiary" ]
-                        }
-                    });
-        });
-    });
-</script>
-
 
 </body>
 </html>

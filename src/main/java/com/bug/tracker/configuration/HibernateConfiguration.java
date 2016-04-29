@@ -1,12 +1,11 @@
 package com.bug.tracker.configuration;
 
 import com.bug.tracker.model.BugReport;
-import com.bug.tracker.model.MainEntity;
+import com.bug.tracker.model.AbstractEntity;
 import com.bug.tracker.model.User;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -20,7 +19,6 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({ "com.bug.tracker.configuration" })
 @PropertySource(value = { "classpath:application.properties" })
 public class HibernateConfiguration {
 
@@ -33,7 +31,7 @@ public class HibernateConfiguration {
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan(new String[] { "com.bug.tracker.model" });
         sessionFactory.setHibernateProperties(hibernateProperties());
-        sessionFactory.setAnnotatedClasses(MainEntity.class);
+        sessionFactory.setAnnotatedClasses(AbstractEntity.class);
         sessionFactory.setAnnotatedClasses(User.class);
         sessionFactory.setAnnotatedClasses(BugReport.class);
         return sessionFactory;

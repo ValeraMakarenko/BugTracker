@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "BUG_REPORT")
-public class BugReport extends MainEntity {
+public class BugReport extends AbstractEntity {
 
     @NotEmpty
     @Column(name = "TITLE", nullable = false)
@@ -40,6 +40,10 @@ public class BugReport extends MainEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_STATUS_ID", referencedColumnName="ID", nullable = false)
     private Status status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FK_PROJECT_ID", referencedColumnName="ID", nullable = false)
+    private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_PRIORITY_ID", referencedColumnName="ID", nullable = false)
@@ -112,6 +116,14 @@ public class BugReport extends MainEntity {
         this.status = status;
     }
 
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
     public Priority getPriority() {
         return priority;
     }
@@ -144,6 +156,7 @@ public class BugReport extends MainEntity {
         if (!reporter.equals(bugReport.reporter)) return false;
         if (!assigned.equals(bugReport.assigned)) return false;
         if (!status.equals(bugReport.status)) return false;
+        if (!project.equals(bugReport.project)) return false;
         if (!priority.equals(bugReport.priority)) return false;
         return startBugReport.equals(bugReport.startBugReport);
 
@@ -160,6 +173,7 @@ public class BugReport extends MainEntity {
         result = 31 * result + reporter.hashCode();
         result = 31 * result + assigned.hashCode();
         result = 31 * result + status.hashCode();
+        result = 31 * result + project.hashCode();
         result = 31 * result + priority.hashCode();
         result = 31 * result + startBugReport.hashCode();
         return result;
@@ -168,7 +182,8 @@ public class BugReport extends MainEntity {
     @Override
     public String toString() {
         return "BugReport{" +
-                "title='" + title + '\'' +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
                 ", summary='" + summary + '\'' +
                 ", stepsToReproduce='" + stepsToReproduce + '\'' +
                 ", actualResult='" + actualResult + '\'' +
@@ -176,6 +191,7 @@ public class BugReport extends MainEntity {
                 ", reporter=" + reporter +
                 ", assigned=" + assigned +
                 ", status=" + status +
+                ", project=" + project +
                 ", priority=" + priority +
                 ", startBugReport=" + startBugReport +
                 '}';

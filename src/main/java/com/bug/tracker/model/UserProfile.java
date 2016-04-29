@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "USER_PROFILE")
-public class UserProfile extends MainEntity {
+public class UserProfile extends AbstractEntity {
 
     @Column(name = "ROLE", length = 15, unique = true, nullable = false)
     private String role;
@@ -39,7 +39,8 @@ public class UserProfile extends MainEntity {
     @Override
     public String toString() {
         return "UserProfile{" +
-                "role='" + role + '\'' +
+                "id='" + id + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

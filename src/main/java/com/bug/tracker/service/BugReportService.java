@@ -12,6 +12,8 @@ public interface BugReportService {
 
     List<BugReportForViewKotlin> findAll();
 
+    List<BugReportForViewKotlin> findBugReportsForProject(int idProject);
+
     @Secured("ROLE_Project_Manager")
     void deleteBugReportById(int id);
 

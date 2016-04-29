@@ -65,6 +65,10 @@
     <orderEntry type="library" name="Maven: com.mchange:mchange-commons-java:0.2.3.4" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.1.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-validator:5.2.4.Final" level="project" />
+    <orderEntry type="library" name="Maven: commons-validator:commons-validator:1.5.0" level="project" />
+    <orderEntry type="library" name="Maven: commons-beanutils:commons-beanutils:1.9.2" level="project" />
+    <orderEntry type="library" name="Maven: commons-digester:commons-digester:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.2" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.38" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet.jsp:javax.servlet.jsp-api:2.3.1" level="project" />
@@ -75,7 +79,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: xerces:xercesImpl:2.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: xerces:xmlParserAPIs:2.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: poi:poi:2.5.1-final-20040804" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: commons-collections:commons-collections:3.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: commons-lang:commons-lang:2.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-all:1.10.19" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.h2database:h2:1.4.191" level="project" />
@@ -86,5 +89,6 @@
     <orderEntry type="library" name="Maven: javax.el:javax.el-api:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.0.1-2" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-runtime:1.0.1-2" level="project" />
+    <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
   </component>
 </module>

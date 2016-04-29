@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -7,6 +7,10 @@
     <style>
         .descr { visibility: hidden; }
     </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Bug Report Form</title>
+    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
+    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
 </head>
 <body>
 
@@ -24,6 +28,11 @@
 
         <div class="descr">
             <form:input type="text" path="reporterId" id="reporterId" class="form-control input-sm"/>
+            <form:input type="text" path="projectId" id="projectId" class="form-control input-sm"/>
+        </div>
+        <div class="has-error">
+            <form:errors path="reporterId" class="help-inline"/>
+            <form:errors path="projectId" class="help-inline"/>
         </div>
 
         <div class="row">
@@ -91,7 +100,7 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="statusId">Statuses</label>
                 <div class="col-md-7">
-                    <form:select path="statusId" items="${statuses}" multiple="false" itemValue="id" itemLabel="type" class="form-control input-sm"/>
+                    <form:select path="statusId" items="${statuses}" multiple="false" readonly="true" itemValue="id" itemLabel="type" class="form-control input-sm"/>
                     <div class="has-error">
                         <form:errors path="statusId" class="help-inline"/>
                     </div>
