@@ -1,10 +1,12 @@
 package com.bug.tracker.service.impl;
 
 import com.bug.tracker.dao.BugReportDao;
+import com.bug.tracker.dao.ProjectDao;
 import com.bug.tracker.dto.BugReportDto;
 import com.bug.tracker.mapper.BugReportMapper;
 import com.bug.tracker.model.BugReport;
 import com.bug.tracker.model.BugReportForViewKotlin;
+import com.bug.tracker.model.Project;
 import com.bug.tracker.service.BugReportService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service("bugReportService")
@@ -21,14 +22,16 @@ public class BugReportServiceImpl implements BugReportService {
     private static final Logger log = Logger.getLogger(UserServiceImpl.class);
 
     @Autowired
-    private BugReportDao dao;
+    private BugReportDao bugReportDao;
     @Autowired
     private BugReportMapper bugReportMapper;
+    @Autowired
+    private ProjectDao projectDao;
 
     @Override
     public void updateBugReport(BugReportDto bugReportDto) {
         BugReport bugReport = bugReportMapper.bugReportDtoToBugReport(bugReportDto);
-        BugReport updateBugReport = dao.findById(bugReportDto.getId());
+        BugReport updateBugReport = bugReportDao.findById(bugReportDto.getId());
         if (updateBugReport != null) {
             updateBugReport.setTitle(bugReport.getTitle());
             updateBugReport.setSummary(bugReport.getSummary());
@@ -46,34 +49,25 @@ public class BugReportServiceImpl implements BugReportService {
 
     @Override
     public List<BugReportForViewKotlin> findAll() {
-        return bugReportMapper.BugReportsToBugReportForViewKotlins(dao.findAll());
+        return bugReportMapper.BugReportsToBugReportForViewKotlins(bugReportDao.findAll());
     }
 
     @Override
     public List<BugReportForViewKotlin> findBugReportsForProject(int idProject) {
-        List<BugReportDto> bugReportDtoList = bugReportMapper.bugReportsToBugReportDtos(dao.findAll());
-        List<BugReportDto> needs = new ArrayList<>();
-        List<BugReportForViewKotlin> bugReportForViewKotlinList;
-        for (BugReportDto bugReportDto : bugReportDtoList) {
-            if (bugReportDto.getProjectId() == idProject) {
-                needs.add(bugReportDto);
-            }
-        }
-        if (needs == null) {
-            return null;
-        }
-        bugReportForViewKotlinList = bugReportMapper.BugReportsToBugReportForViewKotlins(bugReportMapper.bugReportDtosToBugReports(needs));
+        Project project = projectDao.findById(idProject);
+        List<BugReport> bugReportList = bugReportDao.findBugReportsForProject(project);
+        List<BugReportForViewKotlin> bugReportForViewKotlinList = bugReportMapper.BugReportsToBugReportForViewKotlins(bugReportList);
         return bugReportForViewKotlinList;
     }
 
     @Override
     public void deleteBugReportById(int id) {
-        dao.deleteBugReportById(id);
+        bugReportDao.deleteBugReportById(id);
     }
 
     @Override
     public BugReportDto findById(int id) {
-        return bugReportMapper.bugReportToBugReportDto(dao.findById(id));
+        return bugReportMapper.bugReportToBugReportDto(bugReportDao.findById(id));
     }
 
     @Override
@@ -81,7 +75,7 @@ public class BugReportServiceImpl implements BugReportService {
         BugReport bugReport = bugReportMapper.bugReportDtoToBugReport(bugReportDto);
         bugReport.setId(0);
         bugReport.setStartBugReport(LocalDateTime.now());
-        dao.save(bugReport);
+        bugReportDao.save(bugReport);
         log.debug("Saving bug report '" + bugReportDto.getTitle() + "' in db.");
     }
 

@@ -1,6 +1,7 @@
 package com.bug.tracker.dao;
 
 import com.bug.tracker.model.BugReport;
+import com.bug.tracker.model.Project;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface BugReportDao {
     List<BugReport> findAll();
 
     void deleteBugReportById(int id);
+
+    List<BugReport> findBugReportsForProject(Project project);
 }

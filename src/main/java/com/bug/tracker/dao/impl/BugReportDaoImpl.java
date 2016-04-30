@@ -3,6 +3,7 @@ package com.bug.tracker.dao.impl;
 import com.bug.tracker.dao.AbstractDao;
 import com.bug.tracker.dao.BugReportDao;
 import com.bug.tracker.model.BugReport;
+import com.bug.tracker.model.Project;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -34,6 +35,13 @@ public class BugReportDaoImpl extends AbstractDao<Integer, BugReport> implements
         criteria.add(Restrictions.eq("id", id));
         BugReport bugReport = (BugReport)criteria.uniqueResult();
         delete(bugReport);
+    }
+
+    @Override
+    public List<BugReport> findBugReportsForProject(Project project) {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("project", project));
+        return (List<BugReport>) criteria.list();
     }
 
 }
